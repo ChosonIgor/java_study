@@ -6,7 +6,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-    private ContactHelper contactHelper;
+    private HomeHelper homeHelper;
     protected WebDriver wd;
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
@@ -16,7 +16,7 @@ public class ApplicationManager {
         wd = new FirefoxDriver();
         wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         wd.get("http://localhost/addressbook/");
-        contactHelper = new ContactHelper(wd);
+        homeHelper = new HomeHelper(wd);
         sessionHelper = new SessionHelper(wd);
         groupHelper = new GroupHelper(wd);
         navigationHelper = new NavigationHelper(wd);
@@ -27,8 +27,6 @@ public class ApplicationManager {
         wd.quit();
     }
 
-
-
     public GroupHelper getGroupHelper() {
         return groupHelper;
     }
@@ -37,7 +35,7 @@ public class ApplicationManager {
         return navigationHelper;
     }
 
-    public ContactHelper getContactHelper() {
-        return contactHelper;
+    public HomeHelper getHomeHelper() {
+        return homeHelper;
     }
 }

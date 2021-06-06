@@ -1,4 +1,4 @@
-package ru.kim.addressbook;
+package ru.kim.addressbook.model;
 
 public class GroupData {
     private final String name;

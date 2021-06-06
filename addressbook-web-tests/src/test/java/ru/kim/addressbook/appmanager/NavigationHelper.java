@@ -9,14 +9,14 @@ public class NavigationHelper {
     public NavigationHelper(WebDriver wd) {
         this.wd = wd;
     }
-    public void submitNewContact() {
-        wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
+    public void initNewContact() {
+        wd.findElement(By.linkText("add new")).click();
     }
     public void gotoGroupPage() {
         wd.findElement(By.linkText("groups")).click();
     }
 
-    public void getHome() {
+    public void gotoHomePage() {
         wd.findElement(By.linkText("home")).click();
     }
 }

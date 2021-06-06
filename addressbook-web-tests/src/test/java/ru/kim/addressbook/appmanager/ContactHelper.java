@@ -31,8 +31,8 @@ public class ContactHelper {
         wd.findElement(By.name("address")).clear();
         wd.findElement(By.name("address")).sendKeys(contactData.getAddress());
     }
-
-    public void initNewContact() {
-        wd.findElement(By.linkText("add new")).click();
+    public void submitNewContact() {
+        wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
     }
+
 }

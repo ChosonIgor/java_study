@@ -35,6 +35,47 @@ public class GroupCreationTests {
     submitGroupCreation();
     returnToGroupPage();
   }
+  @Test
+  public void testUntitledTestCase() throws Exception {
+    initNewContact();
+    fillNewContact(new ContactData("testFirstName", "testMiddleName", "testLastName",
+            "testNickName", "testing Company", "Testing Address"));
+    submitNewContact();
+    getHome();
+}
+
+  private void getHome() {
+    wd.findElement(By.linkText("home")).click();
+  }
+
+  private void submitNewContact() {
+    wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
+  }
+
+  private void fillNewContact(ContactData contactData) {
+    wd.findElement(By.name("firstname")).click();
+    wd.findElement(By.name("firstname")).clear();
+    wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstName());
+       wd.findElement(By.name("middlename")).click();
+    wd.findElement(By.name("middlename")).clear();
+    wd.findElement(By.name("middlename")).sendKeys(contactData.getMiddleName());
+    wd.findElement(By.name("lastname")).click();
+    wd.findElement(By.name("lastname")).clear();
+    wd.findElement(By.name("lastname")).sendKeys(contactData.getLastName());
+    wd.findElement(By.name("nickname")).click();
+    wd.findElement(By.name("nickname")).clear();
+    wd.findElement(By.name("nickname")).sendKeys(contactData.getNickName());
+    wd.findElement(By.name("company")).click();
+    wd.findElement(By.name("company")).clear();
+    wd.findElement(By.name("company")).sendKeys(contactData.getCompany());
+    wd.findElement(By.name("address")).click();
+    wd.findElement(By.name("address")).clear();
+    wd.findElement(By.name("address")).sendKeys(contactData.getAddress());
+  }
+
+  private void initNewContact() {
+    wd.findElement(By.linkText("add new")).click();
+  }
 
   private void returnToGroupPage() {
     wd.findElement(By.linkText("group page")).click();

@@ -9,6 +9,6 @@ public class SendEmailTests extends TestBase {
         app.getHomeHelper().selectContract();
         app.getHomeHelper().clickToSendEmail();
 
-        
+
     }
 }

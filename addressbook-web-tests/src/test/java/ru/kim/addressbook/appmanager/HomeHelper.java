@@ -39,4 +39,12 @@ public class HomeHelper extends HelperBase {
     public void clickToSendEmail() {
         click(By.xpath("//input[@value='Send e-Mail']"));
     }
+
+    public void clickToEditContract() {
+        click(By.xpath("//img[@alt='Edit']"));
+    }
+    public void clickToUpdateContact() {
+        click(By.name("update"));
+    }
+
 }

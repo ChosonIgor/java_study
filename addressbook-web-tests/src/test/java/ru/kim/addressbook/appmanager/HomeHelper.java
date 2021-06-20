@@ -2,7 +2,11 @@ package ru.kim.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.kim.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeHelper extends HelperBase {
 
@@ -24,8 +28,8 @@ public class HomeHelper extends HelperBase {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void selectContract() {
-        click(By.name("selected[]"));
+    public void selectContract(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteSelectedContact() {
@@ -40,8 +44,9 @@ public class HomeHelper extends HelperBase {
         click(By.xpath("//input[@value='Send e-Mail']"));
     }
 
-    public void clickToEditContract() {
-        click(By.xpath("//img[@alt='Edit']"));
+    public void clickToEditContract(int index) {
+        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+//        click(By.xpath("//img[@alt='Edit']"));
     }
     public void clickToUpdateContact() {
         click(By.name("update"));
@@ -56,5 +61,20 @@ public class HomeHelper extends HelperBase {
         fillNewContact(contact);
         submitNewContact();
         app.getNavigationHelper().gotoHomePage();
+    }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
+        for (WebElement element : elements) {
+            String lastName = element.findElement(By.xpath("./td[2]")).getText();
+            String firstName = element.findElement(By.xpath("./td[3]")).getText();
+            String address = element.findElement(By.xpath("./td[4]")).getText();
+            String email = element.findElement(By.xpath("./td[5]/a")).getText();
+            int id = Integer.parseInt(element.findElement(By.xpath(".//input")).getAttribute("value"));
+            ContactData contact = new ContactData(id, firstName, null, lastName, null, null, address, email);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }

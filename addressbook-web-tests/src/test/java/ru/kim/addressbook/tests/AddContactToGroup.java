@@ -6,7 +6,7 @@ public class AddContactToGroup extends TestBase {
 
     @Test
     public void testAddContactToGroup() {
-        app.getHomeHelper().selectContract();
+        app.getHomeHelper().selectContract(0);
         app.getHomeHelper().addSelectedContactToGroup();
         app.getNavigationHelper().gotoHomePage();
     }

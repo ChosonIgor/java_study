@@ -6,7 +6,7 @@ public class SendEmailTests extends TestBase {
 
     @Test
     public void testContactSendEmail() {
-        app.getHomeHelper().selectContract();
+        app.getHomeHelper().selectContract(0);
         app.getHomeHelper().clickToSendEmail();
 
 

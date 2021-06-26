@@ -38,11 +38,11 @@ public class ApplicationManager {
         wd.quit();
     }
 
-    public GroupHelper getGroupHelper() { return groupHelper; }
+    public GroupHelper Group() { return groupHelper; }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 
-    public HomeHelper getHomeHelper() { return homeHelper; }
+    public HomeHelper contact() { return homeHelper; }
 }

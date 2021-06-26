@@ -28,12 +28,25 @@ public class HomeHelper extends HelperBase {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void selectContract(int index) {
+    public void select(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteSelectedContact() {
         click(By.xpath("//input[@value='Delete']"));
+    }
+
+    public void delete(int index, ApplicationManager app) {
+       select(index);
+        deleteSelectedContact();
+        acceptAlert();
+        app.goTo().HomePage();
+    }
+
+    public void modify(ContactData contact, ApplicationManager app) {
+        fillNewContact(contact);
+        clickToUpdateContact();
+        app.goTo().HomePage();
     }
 
     public void addSelectedContactToGroup() {
@@ -56,14 +69,14 @@ public class HomeHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public void createContact(ContactData contact, ApplicationManager app) {
-        app.getNavigationHelper().initNewContact();
+    public void create(ContactData contact, ApplicationManager app) {
+        app.goTo().initNewContact();
         fillNewContact(contact);
         submitNewContact();
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().HomePage();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements) {

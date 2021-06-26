@@ -1,28 +1,36 @@
 package ru.kim.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.kim.addressbook.model.GroupData;
 
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 public class GroupDeletionTests extends TestBase {
+
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().GroupPage();
+        if (app.Group().list().size() == 0) {
+            app.Group().create(new GroupData().withName("test1"));
+        }
+    }
 
     @Test
     public void testGroupDeletion() {
-        app.getNavigationHelper().gotoGroupPage();
-        if (! app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().createGroup(new GroupData("test1", "test2", "test3"));
-        }
-        List<GroupData> before = app.getGroupHelper().getGroupList();
-        app.getGroupHelper().selectGroup(before.size() - 1);
-        app.getGroupHelper().deleteSelectedGroup();
-        app.getGroupHelper().returnToGroupPage();
-        List<GroupData> after = app.getGroupHelper().getGroupList();
-        Assert.assertEquals(after.size(), before.size() - 1);
+        List<GroupData> before = app.Group().list();
+        int index = before.size() - 1;
+        app.Group().deleteSelectedGroup(index);
+        List<GroupData> after = app.Group().list();
+        assertEquals(after.size(), before.size() - 1);
 
-        before.remove(before.size() - 1);
-        Assert.assertEquals(after, before);
+        before.remove(index);
+        assertEquals(after, before);
     }
+
+
 
 }

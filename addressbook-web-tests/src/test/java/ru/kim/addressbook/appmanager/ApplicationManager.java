@@ -38,7 +38,7 @@ public class ApplicationManager {
         wd.quit();
     }
 
-    public GroupHelper Group() { return groupHelper; }
+    public GroupHelper group() { return groupHelper; }
 
     public NavigationHelper goTo() {
         return navigationHelper;

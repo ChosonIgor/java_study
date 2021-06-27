@@ -5,11 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.kim.addressbook.model.ContactData;
 import ru.kim.addressbook.model.Contacts;
-import ru.kim.addressbook.model.Groups;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class HomeHelper extends HelperBase {
 
@@ -43,23 +40,18 @@ public class HomeHelper extends HelperBase {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void delete(int index, ApplicationManager app) {
-        select(index);
-        deleteSelectedContact();
-        acceptAlert();
-        app.goTo().HomePage();
-    }
-
     public void delete(ContactData contact, ApplicationManager app) {
         selectById(contact.getId());
         deleteSelectedContact();
         acceptAlert();
+        contactsCash = null;
         app.goTo().HomePage();
     }
 
     public void modify(ContactData contact, ApplicationManager app) {
         fillNewContact(contact);
         clickToUpdateContact();
+        contactsCash = null;
         app.goTo().HomePage();
     }
 
@@ -73,7 +65,6 @@ public class HomeHelper extends HelperBase {
 
     public void clickToEditContract(ContactData contact) {
         wd.findElement(By.xpath("//input[@id='" + contact.getId() + "']/ancestor::tr/td[8]")).click();
-//        click(By.xpath("//img[@alt='Edit']"));
     }
     public void clickToUpdateContact() {
         click(By.name("update"));
@@ -83,11 +74,17 @@ public class HomeHelper extends HelperBase {
         app.goTo().initNewContact();
         fillNewContact(contact);
         submitNewContact();
+        contactsCash = null;
         app.goTo().HomePage();
     }
 
+    private Contacts contactsCash = null;
+
     public Contacts all() {
-        Contacts contacts = new Contacts();
+        if(contactsCash != null) {
+            return new Contacts(contactsCash);
+        }
+        contactsCash = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements) {
             String lastName = element.findElement(By.xpath("./td[2]")).getText();
@@ -97,8 +94,12 @@ public class HomeHelper extends HelperBase {
             int id = Integer.parseInt(element.findElement(By.xpath(".//input")).getAttribute("value"));
             ContactData contact = new ContactData().withId(id).withFirstName(firstName).withLastName(lastName)
                     .withAddress(address).withEmail(email);
-            contacts.add(contact);
+            contactsCash.add(contact);
         }
-        return contacts;
+        return new Contacts(contactsCash);
+    }
+
+    public int count() {
+        return wd.findElements(By.name("selected[]")).size();
     }
 }

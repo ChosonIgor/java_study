@@ -10,11 +10,11 @@ public class GroupCreationTests extends TestBase {
     @Test
     public void testGroupCreation() {
         app.goTo().GroupPage();
-        Groups before = app.Group().all();
+        Groups before = app.group().all();
         GroupData group = new GroupData().withName("test1").withHeader("test2").withFooter("test3");
-        app.Group().create(group);
-        Groups after = app.Group().all();
-        assertThat(after.size(), equalTo(before.size() + 1));
+        app.group().create(group);
+        assertThat(app.group().count(), equalTo(before.size() + 1));
+        Groups after = app.group().all();
         assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 }

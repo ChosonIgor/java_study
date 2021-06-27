@@ -11,18 +11,18 @@ public class GroupDeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
         app.goTo().GroupPage();
-        if (app.Group().all().size() == 0) {
-            app.Group().create(new GroupData().withName("test1"));
+        if (app.group().all().size() == 0) {
+            app.group().create(new GroupData().withName("test1"));
         }
     }
 
     @Test
     public void testGroupDeletion() {
-        Groups before = app.Group().all();
+        Groups before = app.group().all();
         GroupData deletedGroup = before.iterator().next();
-        app.Group().delete(deletedGroup);
-        Groups after = app.Group().all();
-        assertThat(after.size(), equalTo(before.size() - 1));
+        app.group().delete(deletedGroup);
+        assertThat(app.group().count(), equalTo(before.size() - 1));
+        Groups after = app.group().all();
         assertThat(after, equalTo(before.without(deletedGroup)));
     }
 

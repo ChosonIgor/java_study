@@ -4,9 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.kim.addressbook.model.ContactData;
+import ru.kim.addressbook.model.Contacts;
+import ru.kim.addressbook.model.Groups;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class HomeHelper extends HelperBase {
 
@@ -32,12 +35,23 @@ public class HomeHelper extends HelperBase {
         wd.findElements(By.name("selected[]")).get(index).click();
     }
 
+    private void selectById(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    }
+
     public void deleteSelectedContact() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
     public void delete(int index, ApplicationManager app) {
-       select(index);
+        select(index);
+        deleteSelectedContact();
+        acceptAlert();
+        app.goTo().HomePage();
+    }
+
+    public void delete(ContactData contact, ApplicationManager app) {
+        selectById(contact.getId());
         deleteSelectedContact();
         acceptAlert();
         app.goTo().HomePage();
@@ -57,16 +71,12 @@ public class HomeHelper extends HelperBase {
         click(By.xpath("//input[@value='Send e-Mail']"));
     }
 
-    public void clickToEditContract(int index) {
-        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void clickToEditContract(ContactData contact) {
+        wd.findElement(By.xpath("//input[@id='" + contact.getId() + "']/ancestor::tr/td[8]")).click();
 //        click(By.xpath("//img[@alt='Edit']"));
     }
     public void clickToUpdateContact() {
         click(By.name("update"));
-    }
-
-    public boolean isThereAContact() {
-        return isElementPresent(By.name("selected[]"));
     }
 
     public void create(ContactData contact, ApplicationManager app) {
@@ -76,16 +86,17 @@ public class HomeHelper extends HelperBase {
         app.goTo().HomePage();
     }
 
-    public List<ContactData> list() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public Contacts all() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
         for (WebElement element : elements) {
             String lastName = element.findElement(By.xpath("./td[2]")).getText();
             String firstName = element.findElement(By.xpath("./td[3]")).getText();
             String address = element.findElement(By.xpath("./td[4]")).getText();
-            String email = element.findElement(By.xpath("./td[5]/a")).getText();
+            String email = element.findElement(By.xpath("./td[5]")).getText();
             int id = Integer.parseInt(element.findElement(By.xpath(".//input")).getAttribute("value"));
-            ContactData contact = new ContactData(id, firstName, null, lastName, null, null, address, email);
+            ContactData contact = new ContactData().withId(id).withFirstName(firstName).withLastName(lastName)
+                    .withAddress(address).withEmail(email);
             contacts.add(contact);
         }
         return contacts;

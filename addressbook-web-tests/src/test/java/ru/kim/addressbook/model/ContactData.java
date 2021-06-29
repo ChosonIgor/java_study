@@ -13,10 +13,20 @@ public class ContactData {
     private String email;
     private String email2;
     private String email3;
+    private String allEmail;
     private String homePhone;
     private String mobilePhone;
     private String workPhone;
     private String allPhones;
+
+    public String getAllEmail() {
+        return allEmail;
+    }
+
+    public ContactData withAllEmail(String allEmail) {
+        this.allEmail = allEmail;
+        return this;
+    }
 
     public String getEmail2() {
         return email2;

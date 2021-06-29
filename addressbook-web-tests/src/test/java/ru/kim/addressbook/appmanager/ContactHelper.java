@@ -95,10 +95,10 @@ public class ContactHelper extends HelperBase {
             String lastName = element.findElement(By.xpath("./td[2]")).getText();
             String firstName = element.findElement(By.xpath("./td[3]")).getText();
             String address = element.findElement(By.xpath("./td[4]")).getText();
-            String email = element.findElement(By.xpath("./td[5]")).getText();
+            String allEmail = element.findElement(By.xpath("./td[5]")).getText();
             String allPhones = element.findElement(By.xpath("./td[6]")).getText();
             ContactData contact = new ContactData().withId(id).withFirstName(firstName).withLastName(lastName).withAddress(address)
-                    .withEmail(email).withAllPhones(allPhones);
+                    .withAllEmail(allEmail).withAllPhones(allPhones);
             contactsCash.add(contact);
         }
         return new Contacts(contactsCash);

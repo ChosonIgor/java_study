@@ -8,7 +8,5 @@ public class SendEmailTests extends TestBase {
     public void testContactSendEmail() {
         app.contact().select(0);
         app.contact().clickToSendEmail();
-
-
     }
 }

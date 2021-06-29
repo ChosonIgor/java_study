@@ -29,6 +29,4 @@ public class ContactEmailTests extends TestBase {
     public static String cleaned(String email) {
         return email.replace("\\s", "").replace("[-()]", "");
     }
-
-
 }

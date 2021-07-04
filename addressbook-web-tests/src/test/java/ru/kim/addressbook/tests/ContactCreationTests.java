@@ -25,25 +25,24 @@ public class ContactCreationTests extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> validContactFromJson() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/contacts.json"))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<ContactData> contact = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
+            return contact.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
-        Gson gson = new Gson();
-        List<ContactData> contact = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-        return contact.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
 
     @Test(dataProvider = "validContactFromJson")
     public void testContactCreation(ContactData contact) {
         File photo = new File("src/test/resources/tiger.jpg");
         Contacts before = app.contact().all();
-//        ContactData contact = new ContactData().withFirstName("testFirstName1").withMiddleName("testMiddleName1")
-//                .withLastName("testLastName1").withNickName("testNickName1").withCompany("testing Company1")
-//                .withAddress("Testing Address1").withEmail("choson@bk.ru").withPhoto(photo);
         app.contact().create(contact, app);
         app.goTo().HomePage();
         assertThat(app.contact().count(), equalTo(before.size() + 1));

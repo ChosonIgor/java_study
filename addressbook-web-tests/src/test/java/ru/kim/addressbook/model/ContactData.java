@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class ContactData {
     private int id  = Integer.MAX_VALUE;
+    @Expose
     private String firstName;
     @Expose
     private String middleName;

@@ -23,7 +23,7 @@ public class ContactModificationTests extends TestBase {
         Contacts before = app.db().contacts();
         ContactData modifyContact = before.iterator().next();
         app.contact().clickToEditContract(modifyContact);
-        ContactData contact = new ContactData().withId(modifyContact.getId()).withFirstName("testFirstNameEdit")
+        ContactData contact = modifyContact.withFirstName("testFirstNameEdit")
                 .withMiddleName("testMiddleNameEdit").withLastName("testLastNameEdit").withNickName("testNickNameEdit")
                 .withCompany("testing CompanyEdit").withAddress("Testing Address Edit").withEmail("choson@bk.ru");
         app.contact().modify(contact);

@@ -1,21 +1,16 @@
 package ru.kim.addressbook.tests;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.kim.addressbook.model.GroupData;
 import ru.kim.addressbook.model.Groups;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,14 +37,11 @@ public class GroupCreationTests extends TestBase {
 
     @Test(dataProvider = "validGroupFromJson")
     public void testGroupCreation(GroupData group) {
-//        logger.info("Start testGroupCreation");
-        app.goTo().GroupPage();
-        Groups before = app.group().all();
-//        group = new GroupData().withName("test1").withHeader("test2").withFooter("test3");
+        app.goTo().groupPage();
+        Groups before = app.db().groups();
         app.group().create(group);
-        assertThat(app.group().count(), equalTo(before.size() + 1));
-        Groups after = app.group().all();
+        assertThat(app.db().groups().size(), equalTo(before.size() + 1));
+        Groups after = app.db().groups();
         assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
-//        logger.info("Stop testGroupCreation");
     }
 }

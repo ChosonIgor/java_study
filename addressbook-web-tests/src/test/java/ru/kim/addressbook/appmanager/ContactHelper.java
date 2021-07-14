@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.kim.addressbook.model.ContactData;
 import ru.kim.addressbook.model.Contacts;
+import ru.kim.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("company"), contactData.getCompany());
         type(By.name("address"), contactData.getAddress());
         type(By.name("email"), contactData.getEmail());
-        attach(By.name("photo"), contactData.getPhoto());
+//        attach(By.name("photo"), contactData.getPhoto());
     }
 
     public void submitNewContact() {
@@ -60,8 +61,12 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void addSelectedContactToGroup() {
-        click(By.name("add"));
+    public void addSelectedContactToGroup(ContactData contact, GroupData group, ApplicationManager app) {
+        selectById(contact.getId());
+        click(By.name("to_group"));
+        click(By.xpath("//select[@name='to_group']/option[@value='" + group.getId() + "']"));
+        click(By.xpath("//input[@name='add']"));
+        app.goTo().HomePage();
     }
 
     public void clickToSendEmail() {

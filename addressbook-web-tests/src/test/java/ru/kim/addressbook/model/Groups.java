@@ -4,6 +4,7 @@ import com.google.common.collect.ForwardingSet;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Groups extends ForwardingSet<GroupData> {
@@ -37,5 +38,19 @@ public class Groups extends ForwardingSet<GroupData> {
         Groups groups = new Groups(this);
         groups.remove(group);
         return groups;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Groups groups = (Groups) o;
+        return Objects.equals(delegate, groups.delegate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), delegate);
     }
 }

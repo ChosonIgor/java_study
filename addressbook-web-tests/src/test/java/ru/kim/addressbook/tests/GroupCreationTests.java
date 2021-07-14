@@ -1,6 +1,8 @@
 package ru.kim.addressbook.tests;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.kim.addressbook.model.GroupData;
@@ -16,8 +18,6 @@ import java.util.stream.Collectors;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 public class GroupCreationTests extends TestBase {
-
-//    Logger logger = (Logger) LoggerFactory.getLogger(GroupCreationTests.class);
 
     @DataProvider
     public Iterator<Object[]> validGroupFromJson() throws IOException {
@@ -43,5 +43,6 @@ public class GroupCreationTests extends TestBase {
         assertThat(app.db().groups().size(), equalTo(before.size() + 1));
         Groups after = app.db().groups();
         assertThat(after, equalTo(before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        verifyGroupListInUi();
     }
 }

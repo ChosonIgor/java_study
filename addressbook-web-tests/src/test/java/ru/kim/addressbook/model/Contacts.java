@@ -4,6 +4,7 @@ import com.google.common.collect.ForwardingSet;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Contacts extends ForwardingSet<ContactData> {

@@ -98,6 +98,11 @@ public class ContactData {
         return this;
     }
 
+    public ContactData removeGroup(GroupData group) {
+        groups.remove(group);
+        return this;
+    }
+
     public File getPhoto() {
         if(photo == null) return null;
         else return new File(photo);

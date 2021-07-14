@@ -69,6 +69,16 @@ public class ContactHelper extends HelperBase {
         app.goTo().HomePage();
     }
 
+    public void removeSelectedContactFromGroup(ContactData contact, GroupData group, ApplicationManager app) {
+        click(By.xpath("//select[@name='group']"));
+        click(By.xpath("//select[@name='group']/option[@value='" + group.getId() + "']"));
+        selectById(contact.getId());
+        click(By.xpath("//input[@name='remove']"));
+        app.goTo().HomePage();
+    }
+
+
+
     public void clickToSendEmail() {
         click(By.xpath("//input[@value='Send e-Mail']"));
     }

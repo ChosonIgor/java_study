@@ -10,7 +10,7 @@ import ru.kim.addressbook.model.Groups;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactAddToGroup extends TestBase {
+public class ContactRemoveFromGroup extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
@@ -28,35 +28,30 @@ public class ContactAddToGroup extends TestBase {
     }
 
     @Test
-    public void testContactAddToGroup() {
-        Groups groups = app.db().groups();
+    public void testContactRemoveFromGroup() {
         Contacts contacts = app.db().contacts();
-        GroupData groupOfAdd = null;
-        ContactData contactForAddingInGroup = null;
-        int contactId = 0;
         int contactsSize = contacts.size();
+        ContactData contactForRemoveFromGroup = null;
+        GroupData groupOfRemove = null;
+        int contactId = 0;
         for (ContactData contact : contacts) {
             contactsSize--;
-            Groups groupDiff = new Groups(groups);
-            groupDiff.removeIf(contact.getGroups() :: contains);
-            if (groupDiff.size() > 0) {
-                contactForAddingInGroup = contact;
-                groupOfAdd = groupDiff.iterator().next();
-                contact.inGroup(groupOfAdd);
-                contactId = contactForAddingInGroup.getId();
+            if(contact.getGroups().size() > 0) {
+                contactForRemoveFromGroup = contact;
+                groupOfRemove = contact.getGroups().iterator().next();
+                contactForRemoveFromGroup.removeGroup(groupOfRemove);
+                contactId = contactForRemoveFromGroup.getId();
                 break;
             }
-            if (contactsSize == 0) {
-                contactForAddingInGroup = new ContactData().withFirstName("testFirstName1").withLastName("testLastName1");
-                app.contact().create(contactForAddingInGroup, app);
-                groupOfAdd = groups.iterator().next();
-                contacts = app.db().contacts();
-                contactForAddingInGroup.withId(contacts.stream().mapToInt((g) -> g.getId()).max().getAsInt()).inGroup(groupOfAdd);
-                contactId = contactForAddingInGroup.getId();
+            if(contactsSize == 0) {
+                contactForRemoveFromGroup = contacts.iterator().next();
+                contactId = contactForRemoveFromGroup.getId();
+                groupOfRemove = app.db().groups().iterator().next();
+                app.contact().addSelectedContactToGroup(contactForRemoveFromGroup, groupOfRemove, app);
             }
         }
-        Groups groupsForCheck = contactForAddingInGroup.getGroups();
-        app.contact().addSelectedContactToGroup(contactForAddingInGroup, groupOfAdd, app);
+        Groups groupsForCheck = contactForRemoveFromGroup.getGroups();
+        app.contact().removeSelectedContactFromGroup(contactForRemoveFromGroup, groupOfRemove, app);
         Contacts after = app.db().contacts();
         for (ContactData contact : after) {
             if (contact.getId() == contactId) {
@@ -64,4 +59,7 @@ public class ContactAddToGroup extends TestBase {
             }
         }
     }
+
+
+
 }

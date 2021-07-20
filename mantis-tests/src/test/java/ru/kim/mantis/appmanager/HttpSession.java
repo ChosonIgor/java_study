@@ -33,19 +33,19 @@ public class HttpSession {
 
     //    Тело запроса: return=index.php&username=administrator
     private boolean sendLogin(String username) throws IOException {
-        HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login_page.php");
+        HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login_password_page.php");
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("return", "index.php"));
         params.add(new BasicNameValuePair("username", username));
         post.setEntity(new UrlEncodedFormEntity(params));
         CloseableHttpResponse response = httpclient.execute(post);
         String body = getTextFrom(response);
-        return body.contains(String.format("Введите пароль для '%s'", username));
+        return body.contains(String.format("username=%s", username));
     }
 
     //    Тело запроса: return=index.php&username=administrator&password=root&secure_session=on
     private boolean sendPassword(String username, String password) throws IOException {
-        HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login_page.php");
+        HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php");
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password));
@@ -69,6 +69,6 @@ public class HttpSession {
         HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/index.php");
         CloseableHttpResponse response = httpclient.execute(get);
         String body = getTextFrom(response);
-        return body.contains(String.format("<span class=\"italic\">%s</span>", username));
+        return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
     }
 }

@@ -18,6 +18,8 @@ public class ApplicationManager {
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
     private MailHelper mailHelper;
+    private ChangePasswordHelper changePasswordHelper;
+    private DbHelper dbHelper;
 
 
     public ApplicationManager(String browser) {
@@ -29,6 +31,7 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
     }
+
 
     public void stop() {
         if (wd != null) {
@@ -76,5 +79,17 @@ public class ApplicationManager {
             mailHelper = new MailHelper(this);
         }
         return mailHelper;
+    }
+
+    public ChangePasswordHelper changePass() {
+        if (changePasswordHelper == null) {
+            changePasswordHelper = new ChangePasswordHelper(this);
+        }
+        return changePasswordHelper;
+    }
+
+    public DbHelper getData() {
+        dbHelper = new DbHelper(this);
+        return dbHelper;
     }
 }

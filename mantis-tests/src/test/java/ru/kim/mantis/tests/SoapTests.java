@@ -1,6 +1,5 @@
 package ru.kim.mantis.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.kim.mantis.appmanager.model.Issue;
 import ru.kim.mantis.appmanager.model.Project;
@@ -15,7 +14,7 @@ import static org.testng.AssertJUnit.assertEquals;
 public class SoapTests extends TestBase{
 
     @Test
-    public void testGetProject() throws MalformedURLException, ServiceException, RemoteException {
+    public void testGetProject() throws MalformedURLException, RemoteException, ServiceException {
         Set<Project> projects = app.soap().getProject();
         System.out.println(projects.size());
         for (Project project : projects) {
@@ -25,7 +24,7 @@ public class SoapTests extends TestBase{
     }
 
     @Test
-    public void testCreatedIssue() throws MalformedURLException, ServiceException, RemoteException {
+    public void testCreatedIssue() throws MalformedURLException, RemoteException, ServiceException {
         Set<Project> projects = app.soap().getProject();
         Issue issue = new Issue().withSummary("Test summary").withDescription("Test description")
                 .withProject(projects.iterator().next());

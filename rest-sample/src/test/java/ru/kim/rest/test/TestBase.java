@@ -1,15 +1,9 @@
 package ru.kim.rest.test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import io.restassured.RestAssured;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import ru.kim.rest.appmanager.RestHelper;
-
-import java.util.Set;
 
 
 public class TestBase {
@@ -29,7 +23,6 @@ public class TestBase {
         } else {
             return false;
         }
-
     }
 
     public void skipIfNotFixed(int issueId) {

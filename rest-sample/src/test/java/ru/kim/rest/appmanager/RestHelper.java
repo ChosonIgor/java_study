@@ -1,6 +1,7 @@
 package ru.kim.rest.appmanager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -26,4 +27,16 @@ public class RestHelper {
         JsonElement parsed = new JsonParser().parse(json);
         return parsed.getAsJsonObject().get("issue_id").getAsInt();
     }
+
+    public boolean isIssueOpen(int issueId) {
+        String json = RestAssured.get(String.format("https://bugify.stqa.ru/api/issues/%s.json", issueId)).asString();
+        JsonElement parsed = new JsonParser().parse(json);
+        JsonArray issues = parsed.getAsJsonObject().getAsJsonArray("issues");
+        if (issues.get(0).getAsJsonObject().get("state_name").equals("Open")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

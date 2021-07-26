@@ -6,6 +6,6 @@ public class TestingTests extends TestBase {
 
     @Test
     public void testingIssueStatus() {
-        skipIfNotFixed(1267);
+        skipIfNotFixed(1278);
     }
 }

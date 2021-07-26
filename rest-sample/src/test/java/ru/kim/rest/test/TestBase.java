@@ -1,8 +1,5 @@
 package ru.kim.rest.test;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import io.restassured.RestAssured;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
@@ -22,5 +19,6 @@ public class TestBase {
         if (rh.isIssueOpen(issueId)) {
             throw new SkipException("Ignored because of issue " + issueId);
         }
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
     }
 }

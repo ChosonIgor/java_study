@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import io.restassured.RestAssured;
+import org.testng.Assert;
 import ru.kim.rest.test.Issue;
 
 import java.util.Set;
@@ -32,7 +33,7 @@ public class RestHelper {
         String json = RestAssured.get(String.format("https://bugify.stqa.ru/api/issues/%s.json", issueId)).asString();
         JsonElement parsed = new JsonParser().parse(json);
         JsonArray issues = parsed.getAsJsonObject().getAsJsonArray("issues");
-        if (issues.get(0).getAsJsonObject().get("state_name").equals("Open")) {
+        if (issues.get(0).getAsJsonObject().get("state_name").getAsString().equals("Open")) {
             return true;
         } else {
             return false;

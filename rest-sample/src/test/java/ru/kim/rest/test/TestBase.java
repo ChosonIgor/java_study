@@ -1,10 +1,12 @@
 package ru.kim.rest.test;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import io.restassured.RestAssured;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import ru.kim.rest.appmanager.RestHelper;
-
 
 public class TestBase {
 
@@ -16,17 +18,8 @@ public class TestBase {
         rh = new RestHelper();
     }
 
-    boolean isIssueOpen(int issueId) {
-        String json = RestAssured.get(String.format("https://bugify.stqa.ru/api/issues/%s.json", issueId)).asString();
-        if (json.contains("\"state_name\":\"Open\"")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public void skipIfNotFixed(int issueId) {
-        if (isIssueOpen(issueId)) {
+        if (rh.isIssueOpen(issueId)) {
             throw new SkipException("Ignored because of issue " + issueId);
         }
     }
